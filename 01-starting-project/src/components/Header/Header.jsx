@@ -1,4 +1,5 @@
-import reactImg from "../assets/react-core-concepts.png";
+import "../Header/Header.css";
+import reactImg from "../../assets/react-core-concepts.png";
 const content = ["Fundamental", "Crucial", "Core"];
 
 const randomContent = () => content[Math.floor(Math.random() * content.length)];
