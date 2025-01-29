@@ -5,7 +5,7 @@ import TabButton from "./components/TabButton";
 import { useState } from "react";
 
 function App() {
-  const [selectedTopic, setSelectedTopic] = useState("components");
+  const [selectedTopic, setSelectedTopic] = useState("");
 
   function handleSelect(selectedBtn) {
     setSelectedTopic(selectedBtn);
@@ -13,6 +13,20 @@ function App() {
     // console.log(selectedTopic);
 
     // the above will always show the previous state because when you use useState it store the value and tell react to reexecute the component where it is and compare the new component with old component and only update those value that are get updated (eg selectedTopic)
+  }
+
+  let tabContent = <p>Please Select a Topic!</p>;
+
+  if (selectedTopic) {
+    tabContent = (
+      <div id="tab-content">
+        <h3>{EXAMPLES[selectedTopic].title}</h3>
+        <p>{EXAMPLES[selectedTopic].description}</p>
+        <pre>
+          <code>{EXAMPLES[selectedTopic].code}</code>
+        </pre>
+      </div>
+    );
   }
 
   return (
@@ -24,10 +38,15 @@ function App() {
           <ul>
             {/* shorter code */}
             {/* spread operator */}
-            <CoreConcept {...CORE_CONCEPTS[0]} />
+
+            {CORE_CONCEPTS.map((concepts) => (
+              <CoreConcept {...concepts} key={concepts.title} />
+            ))}
+
+            {/* <CoreConcept {...CORE_CONCEPTS[0]} />
             <CoreConcept {...CORE_CONCEPTS[1]} />
             <CoreConcept {...CORE_CONCEPTS[2]} />
-            <CoreConcept {...CORE_CONCEPTS[3]} />
+            <CoreConcept {...CORE_CONCEPTS[3]} /> */}
 
             {/* <CoreConcept title={CORE_CONCEPTS[0].title} description={CORE_CONCEPTS[0].description} image={CORE_CONCEPTS[0].image} />
             <CoreConcept title={CORE_CONCEPTS[1].title} description={CORE_CONCEPTS[1].description} image={CORE_CONCEPTS[1].image} />
@@ -39,18 +58,51 @@ function App() {
           <menu>
             {/* <TabButton label="Components" /> */}
 
-            <TabButton onSelect={() => handleSelect("components")}>Components</TabButton>
-            <TabButton onSelect={() => handleSelect("jsx")}>JSX</TabButton>
-            <TabButton onSelect={() => handleSelect("props")}>Props</TabButton>
-            <TabButton onSelect={() => handleSelect("state")}>State</TabButton>
+            <TabButton isSelected={selectedTopic === "components"} onSelect={() => handleSelect("components")}>
+              Components
+            </TabButton>
+            <TabButton isSelected={selectedTopic === "jsx"} onSelect={() => handleSelect("jsx")}>
+              JSX
+            </TabButton>
+            <TabButton isSelected={selectedTopic === "props"} onSelect={() => handleSelect("props")}>
+              Props
+            </TabButton>
+            <TabButton isSelected={selectedTopic === "state"} onSelect={() => handleSelect("state")}>
+              State
+            </TabButton>
           </menu>
-          <div id="tab-content">
-            <h3>{EXAMPLES[selectedTopic].title}</h3>
-            <p>{EXAMPLES[selectedTopic].description}</p>
-            <pre>
-              <code>{EXAMPLES[selectedTopic].code}</code>
-            </pre>
-          </div>
+
+          {/* condionally rendering content
+
+          First Method */}
+
+          {!selectedTopic && <p className="text-center">Please Select a Topic!</p>}
+          {selectedTopic && (
+            <div id="tab-content">
+              <h3>{EXAMPLES[selectedTopic].title}</h3>
+              <p>{EXAMPLES[selectedTopic].description}</p>
+              <pre>
+                <code>{EXAMPLES[selectedTopic].code}</code>
+              </pre>
+            </div>
+          )}
+
+          {/* second Method  */}
+
+          {/* {!selectedTopic ? (
+            <p>Please Select a Topic!</p>
+          ) : (
+            <div id="tab-content">
+              <h3>{EXAMPLES[selectedTopic].title}</h3>
+              <p>{EXAMPLES[selectedTopic].description}</p>
+              <pre>
+                <code>{EXAMPLES[selectedTopic].code}</code>
+              </pre>
+            </div>
+          )} */}
+
+          {/* third method  */}
+          {/* {tabContent} */}
         </section>
         <h2>Time to get started!</h2>
       </main>
