@@ -29,10 +29,16 @@ export default function Example() {
     );
   }
   return (
+    // working with multiple jsx slots
+
     <Section id="examples">
       {/* <TabButton label="Components" /> */}
 
       <Tabs
+        // setting Component type dynamically
+
+        // buttonContainer="menu"
+        // ButtonContainer="menu"
         button={
           <>
             <TabButton isSelected={selectedTopic === "components"} onClick={() => handleSelect("components")}>
